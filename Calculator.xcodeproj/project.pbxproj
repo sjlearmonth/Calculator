@@ -67,8 +67,9 @@
 				C44D4FF72818692E0033C302 /* Info.plist */,
 				C44D5000281869BC0033C302 /* Model */,
 			);
-			path = Calculator;
-			sourceTree = "<group>";
+			name = Calculator;
+			path = "/Users/StephenLearmonth/Desktop/Angela Yu/Calculator";
+			sourceTree = "<absolute>";
 		};
 		C44D4FFF281869B00033C302 /* Controller */ = {
 			isa = PBXGroup;
