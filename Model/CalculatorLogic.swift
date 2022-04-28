@@ -14,6 +14,8 @@ struct CalculatorLogic {
     
     private var intermediateCalculation: (n1: Double, calcMethod: String)?
     
+    private var percentageIsCalculated: Bool = false
+    
     mutating internal func setNumber(to number: Double) {
         self.number = number
     }
@@ -27,7 +29,13 @@ struct CalculatorLogic {
             case "AC":
                 return (0.0, nil)
             case "%":
-                return (n * 0.01, nil)
+                if percentageIsCalculated {
+                    percentageIsCalculated = false
+                    return (n * 100.0, nil)
+                } else {
+                    percentageIsCalculated = true
+                    return (n * 0.01, nil)
+                }
             case "=":
                 return performTwoNumCalculation(n2: n)
             default:

@@ -22,6 +22,8 @@ class ViewController: UIViewController {
     /// Controls when decimal point is displayed or not
     private var isFinishedTypingDecimalPoint: Bool = false
     
+    private var errorMessageIsDisplayed: Bool = false
+    
     private var displayValue: Double {
         get {
             guard let number = Double(displayLabel.text!) else {
@@ -32,7 +34,7 @@ class ViewController: UIViewController {
             if newValue == 0.0 {
                 displayLabel.text = "0"
             } else {
-                displayLabel.text = String(newValue)
+                displayLabel.text = String(format: "%1.2f", arguments: [newValue])
             }
         }
     }
@@ -45,18 +47,25 @@ class ViewController: UIViewController {
         
         isFinishedTypingNumber = true
         
-        calculator.setNumber(to: displayValue)
-        
         if let calcMethod = sender.currentTitle {
             
-            let returnValue = calculator.calculate(symbol: calcMethod)
-            if let result = returnValue.0 {
-                displayValue = result
-            } else if let displayMessage = returnValue.1 {
-                displayLabel.text = displayMessage
-                isFinishedTypingNumber = true
+            if !errorMessageIsDisplayed {
+                
+                calculator.setNumber(to: displayValue)
+                let returnValue = calculator.calculate(symbol: calcMethod)
+                if let result = returnValue.0 {
+                    displayValue = result
+                } else if let displayMessage = returnValue.1 {
+                    displayLabel.text = displayMessage
+                    errorMessageIsDisplayed = true
+                }
+                
+            } else if calcMethod == "AC" {
+                displayValue = 0.0
+                errorMessageIsDisplayed = false
             }
         }
+        
     }
     
     @IBAction func numButtonPressed(_ sender: UIButton) {
